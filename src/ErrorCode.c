@@ -14,17 +14,20 @@ const char* error_getErrorMessage(ErrorCode code) {
     case ERROR_NULL:
         str = "Input is null";
         break;
-    case ERROR_POSTIVE_INPUT_REQUIRED:
-        str = "Matrix height and width must be positive";
+    case ERROR_NEG_INDEX:
+        str = "Matrix height and width must be not negative";
         break;
     case ERROR_OUT_OF_MATRIX_BOUNDS:
         str = "The index you wanted to reach is out of matrix's bounds";
         break;
-    case ADDITION_IS_NOT_DEFINED:
+    case ERROR_ADDITION_IS_NOT_DEFINED:
         str = "Addition is not defined - the height and width of matrixes should be equal";
         break;   
-    case MULTIPLICATION_IS_NOT_DEFINED:
+    case ERROR_MULTIPLICATION_IS_NOT_DEFINED:
         str = "Multiplication is not defined - the width of first matrix must be equals to height of second matrix";
+        break;  
+    case ERROR_MEMORY:
+        str = "There is not enough memory";
         break;  
     default:
         str = "Unknown code";
