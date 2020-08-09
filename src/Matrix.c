@@ -42,7 +42,10 @@ ErrorCode matrix_copy(PMatrix* result, CPMatrix source) {
         return ERROR_NULL;
     }
     //creating new matrix with same dimenstions
-    matrix_create(result, source->height, source->width);
+    ErrorCode error = matrix_create(result, source->height, source->width);
+    if (!error_isSuccess(error)) {
+        return error; 
+    }
     //copies data of source to result using
     for (int i = 0; i < source->height; ++i) {
         for (int j = 0; j < source->width; ++j) {
@@ -107,6 +110,20 @@ ErrorCode matrix_getValue(CPMatrix matrix, uint32_t rowIndex, uint32_t colIndex,
 }
 
 ErrorCode matrix_add(PMatrix* result, CPMatrix lhs, CPMatrix rhs) {
+    if (lhs->height != rhs->height ||
+        lhs->width != rhs->width) {
+            return ERROR_ADDITION_IS_NOT_DEFINED;
+        }
+    ErrorCode error = matrix_create(result, lhs->height, lhs->width);
+    if (!error_isSuccess(error)) {
+        return error;
+    }
+    
+    for (int i = 0; i < lhs->height; ++i) {
+        for (int j = 0; j < lhs->width; ++j) {
+            ((*result)->array)[i][j] = (lhs->array)[i][j] + (rhs->array)[i][j];
+        }
+    }
     return ERROR_SUCCESS;
 }
 

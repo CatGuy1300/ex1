@@ -4,11 +4,17 @@
 void printMat(PMatrix matrix);
 
 int main() {
-    PMatrix matrix;
-    matrix_create(&matrix, 3, 2);
+    PMatrix matrix1, matrix2, result;
+    ErrorCode code;
+    matrix_create(&matrix1, 3, 2);
+    matrix_create(&matrix2, 3, 2);
     double val;
-    matrix_setValue(matrix, 1, 1, 5);
-    printMat(matrix);
+    matrix_setValue(matrix1, 1, 1, 5);
+    code = matrix_setValue(matrix2, 1, 0, 3);
+    printf("%s \n", error_getErrorMessage(code));
+    code = matrix_add(&result, matrix1, matrix2);
+    printf("%s \n", error_getErrorMessage(code));
+    printMat(result);
     return 0;
 }
 
