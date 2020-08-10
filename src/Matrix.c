@@ -57,11 +57,14 @@ ErrorCode matrix_copy(PMatrix* result, CPMatrix source) {
 }
 
 void matrix_destroy(PMatrix matrix) {
+    if (matrix != NULL) {
     for (int i = 0; i < matrix->height; ++i) {
-        free((matrix->array)[i]);
+            free((matrix->array)[i]);
+         }
+        free(matrix->array);
+        free(matrix);
+        matrix = NULL;
     }
-    free(matrix->array);
-    free(matrix);
 }
 
 ErrorCode matrix_getHeight(CPMatrix matrix, uint32_t* result) {
@@ -111,10 +114,13 @@ ErrorCode matrix_getValue(CPMatrix matrix, uint32_t rowIndex, uint32_t colIndex,
 }
 
 ErrorCode matrix_add(PMatrix* result, CPMatrix lhs, CPMatrix rhs) {
+    if (lhs == NULL || rhs == NULL) {
+        return ERROR_NULL;
+    }
     if (lhs->height != rhs->height ||
         lhs->width != rhs->width) {
             return ERROR_ADDITION_IS_NOT_DEFINED;
-        }
+    }
     ErrorCode error = matrix_create(result, lhs->height, lhs->width);
     if (!error_isSuccess(error)) {
         return error;
@@ -129,6 +135,9 @@ ErrorCode matrix_add(PMatrix* result, CPMatrix lhs, CPMatrix rhs) {
 }
 
 ErrorCode matrix_multiplyMatrices(PMatrix* result, CPMatrix lhs, CPMatrix rhs) {
+    if (lhs == NULL || rhs == NULL) {
+        return ERROR_NULL;
+    }
     if (lhs->width != rhs->height) {
             return ERROR_MULTIPLICATION_IS_NOT_DEFINED;
         }

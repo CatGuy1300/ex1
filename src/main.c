@@ -4,7 +4,7 @@
 void printMat(PMatrix matrix);
 
 int main() {
-    PMatrix matrix1, matrix2, result;
+    PMatrix matrix1 = NULL, matrix2 = NULL, result = NULL;
     ErrorCode code;
     matrix_create(&matrix1, 3, 2);
     matrix_create(&matrix2, 2, 3);
@@ -28,16 +28,18 @@ int main() {
 }
 
 void printMat(PMatrix matrix) {
-    double value;
-    int height;
-    int width;
-    matrix_getHeight(matrix, &height);
-    matrix_getWidth(matrix, &width);
-    for (int i = 0; i < height; ++i) {
-        for (int j = 0; j < width; ++j) {
-            matrix_getValue(matrix, i, j, &value);
-            printf("%f, ", value);
+    if (matrix != NULL) {
+        double value;
+        uint32_t height;
+        uint32_t width;
+        matrix_getHeight(matrix, &height);
+        matrix_getWidth(matrix, &width);
+       for (int i = 0; i < height; ++i) {
+           for (int j = 0; j < width; ++j) {
+                matrix_getValue(matrix, i, j, &value);
+                printf("%f, ", value);
+            }
+            printf("\n");
         }
-        printf("\n");
     }
 }
