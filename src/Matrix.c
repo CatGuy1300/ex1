@@ -27,6 +27,7 @@ ErrorCode matrix_create(PMatrix* matrix, uint32_t height, uint32_t width) {
         return ERROR_MEMORY;
     }
 
+    //
     for (int i = 0; i < height; ++i) {
         ((*matrix)->array)[i] = (double*) calloc(width, sizeof(double));
         if (((*matrix)->array)[i] == NULL) {
@@ -128,6 +129,23 @@ ErrorCode matrix_add(PMatrix* result, CPMatrix lhs, CPMatrix rhs) {
 }
 
 ErrorCode matrix_multiplyMatrices(PMatrix* result, CPMatrix lhs, CPMatrix rhs) {
+    if (lhs->width != rhs->height) {
+            return ERROR_MULTIPLICATION_IS_NOT_DEFINED;
+        }
+    ErrorCode error = matrix_create(result, lhs->height, rhs->width);
+    if (!error_isSuccess(error)) {
+        return error;
+    }
+
+    for (int i = 0; i < lhs->height; ++i) {
+        for (int j = 0; j < rhs->width; ++j) {
+            double product = 0;
+            for (int k = 0; k < lhs->width; ++k) {
+                product += (lhs->array)[i][k] * (rhs->array)[k][j];
+            }
+            ((*result)->array)[i][j] = product;
+        }
+    }
     return ERROR_SUCCESS;
 }
 

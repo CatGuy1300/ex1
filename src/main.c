@@ -7,7 +7,7 @@ int main() {
     PMatrix matrix1, matrix2, result;
     ErrorCode code;
     matrix_create(&matrix1, 3, 2);
-    matrix_create(&matrix2, 3, 2);
+    matrix_create(&matrix2, 2, 3);
     double val;
     matrix_setValue(matrix1, 1, 1, 5);
     code = matrix_setValue(matrix2, 1, 0, 3);
@@ -15,6 +15,15 @@ int main() {
     code = matrix_add(&result, matrix1, matrix2);
     printf("%s \n", error_getErrorMessage(code));
     printMat(result);
+    matrix_destroy(result);
+    code = matrix_multiplyMatrices(&result, matrix1, matrix2);
+    printf("%s \n", error_getErrorMessage(code));
+    printMat(result);
+    matrix_destroy(result);
+    code = matrix_multiplyMatrices(&result, matrix2, matrix1);
+    printf("%s \n", error_getErrorMessage(code));
+    printMat(result);
+    matrix_destroy(result);
     return 0;
 }
 
