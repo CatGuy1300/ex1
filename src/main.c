@@ -16,6 +16,10 @@ int main() {
     printf("%s \n", error_getErrorMessage(code));
     printMat(result);
     matrix_destroy(result);
+    code = matrix_multiplyWithScalar(matrix1, 2);
+    printf("%s \n", error_getErrorMessage(code));
+    printMat(matrix1);
+    matrix_destroy(result);
     code = matrix_multiplyMatrices(&result, matrix1, matrix2);
     printf("%s \n", error_getErrorMessage(code));
     printMat(result);

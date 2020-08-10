@@ -159,5 +159,13 @@ ErrorCode matrix_multiplyMatrices(PMatrix* result, CPMatrix lhs, CPMatrix rhs) {
 }
 
 ErrorCode matrix_multiplyWithScalar(PMatrix matrix, double scalar) {
+    if (matrix == NULL) {
+        return ERROR_NULL;
+    }
+    for (int i = 0; i < matrix->height; ++i) {
+        for (int j = 0; j < matrix->width; ++j) {
+            (matrix->array)[i][j] *= scalar;
+        }
+    }
     return ERROR_SUCCESS;
 }
