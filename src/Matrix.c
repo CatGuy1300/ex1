@@ -4,12 +4,12 @@
 #include <stdio.h>
 
 typedef struct Matrix {
-    int height;
-    int width;
+    uint32_t height;
+    uint32_t width;
     double** array; 
 } Matrix;
 
-const int MIN_INDEX_VAL = 0;
+const uint32_t MIN_INDEX_VAL = 0;
 
 ErrorCode matrix_create(PMatrix* matrix, uint32_t height, uint32_t width) {
     //dims must be positive
@@ -32,7 +32,7 @@ ErrorCode matrix_create(PMatrix* matrix, uint32_t height, uint32_t width) {
     }
 
     //creating the arrays inside the array (2d array)
-    for (int i = 0; i < height; ++i) {
+    for (uint32_t i = 0; i < height; ++i) {
         ((*matrix)->array)[i] = (double*) calloc(width, sizeof(double));
         if (((*matrix)->array)[i] == NULL) {
             return ERROR_MEMORY;
@@ -55,8 +55,8 @@ ErrorCode matrix_copy(PMatrix* result, CPMatrix source) {
     }
 
     //copies data of source to result
-    for (int i = 0; i < source->height; ++i) {
-        for (int j = 0; j < source->width; ++j) {
+    for (uint32_t i = 0; i < source->height; ++i) {
+        for (uint32_t j = 0; j < source->width; ++j) {
             ((*result)->array)[i][j] = (source->array)[i][j];
         }
     }
@@ -67,7 +67,7 @@ ErrorCode matrix_copy(PMatrix* result, CPMatrix source) {
 void matrix_destroy(PMatrix matrix) {
     if (matrix != NULL) {
         //freeing 2d array
-    for (int i = 0; i < matrix->height; ++i) {
+    for (uint32_t i = 0; i < matrix->height; ++i) {
             free((matrix->array)[i]);
          }
         free(matrix->array);
@@ -163,8 +163,8 @@ ErrorCode matrix_add(PMatrix* result, CPMatrix lhs, CPMatrix rhs) {
     }
     
     //calculating the addition matrix by definition
-    for (int i = 0; i < lhs->height; ++i) {
-        for (int j = 0; j < lhs->width; ++j) {
+    for (uint32_t i = 0; i < lhs->height; ++i) {
+        for (uint32_t j = 0; j < lhs->width; ++j) {
             ((*result)->array)[i][j] = (lhs->array)[i][j] + (rhs->array)[i][j];
         }
     }
@@ -190,10 +190,10 @@ ErrorCode matrix_multiplyMatrices(PMatrix* result, CPMatrix lhs, CPMatrix rhs) {
     }
 
     //calculating the multiplication matrix by definition
-    for (int i = 0; i < lhs->height; ++i) {
-        for (int j = 0; j < rhs->width; ++j) {
+    for (uint32_t i = 0; i < lhs->height; ++i) {
+        for (uint32_t j = 0; j < rhs->width; ++j) {
             double product = 0;
-            for (int k = 0; k < lhs->width; ++k) {
+            for (uint32_t k = 0; k < lhs->width; ++k) {
                 product += (lhs->array)[i][k] * (rhs->array)[k][j];
             }
             ((*result)->array)[i][j] = product;
@@ -210,8 +210,8 @@ ErrorCode matrix_multiplyWithScalar(PMatrix matrix, double scalar) {
     }
 
     //calculating the multiplication matrix by definition
-    for (int i = 0; i < matrix->height; ++i) {
-        for (int j = 0; j < matrix->width; ++j) {
+    for (uint32_t i = 0; i < matrix->height; ++i) {
+        for (uint32_t j = 0; j < matrix->width; ++j) {
             (matrix->array)[i][j] *= scalar;
         }
     }

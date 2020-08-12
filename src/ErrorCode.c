@@ -33,4 +33,6 @@ const char* error_getErrorMessage(ErrorCode code) {
         str = "Unknown code";
         break;
     }
+
+    return str;
 }
