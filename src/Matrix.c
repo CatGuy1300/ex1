@@ -22,19 +22,33 @@ ErrorCode matrix_create(PMatrix* matrix, uint32_t height, uint32_t width) {
 
     //allocating memory for struct
     *matrix = (PMatrix) malloc(sizeof(Matrix));
+    if(*matrix == NULL) {
+        return ERROR_MEMORY;
+    }
     (*matrix)->height = height;
     (*matrix)->width = width;
 
      //creating the array repersenig the matrix
     ((*matrix)->array) = (double**) malloc(height * sizeof(double*));
     if (((*matrix)->array) == NULL) {
+        free(*matrix);
+        *matrix = NULL;
         return ERROR_MEMORY;
     }
+
 
     //creating the arrays inside the array (2d array)
     for (uint32_t i = 0; i < height; ++i) {
         ((*matrix)->array)[i] = (double*) calloc(width, sizeof(double));
+
         if (((*matrix)->array)[i] == NULL) {
+            //need to free allocted memory
+            for (uint32_t j = 0; j < i; ++j) {
+                free(((*matrix)->array)[i]);
+            }
+            free((*matrix)->array);
+            free(*matrix);
+            *matrix = NULL;
             return ERROR_MEMORY;
         }
     }
