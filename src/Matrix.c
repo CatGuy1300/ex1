@@ -62,12 +62,13 @@ ErrorCode matrix_copy(PMatrix *result, CPMatrix source) {
 }
 
 void matrix_destroy(PMatrix matrix) {
-  if (matrix != NULL) {
+  if (matrix == NULL) {
+      return;
+  }
     free(matrix->array);
 
     // freeing sturct
     free(matrix);
-  }
 }
 
 ErrorCode matrix_getHeight(CPMatrix matrix, uint32_t *const result) {
