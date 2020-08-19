@@ -180,7 +180,7 @@ ErrorCode matrix_multiplyMatrices(PMatrix *result, CPMatrix lhs, CPMatrix rhs) {
       double product = 0;
       for (uint32_t k = 0; k < lhs->width; ++k) {
         product +=
-            (lhs->array)[i * lhs->width + k] * (rhs->array)[k * lhs->width + j];
+            (lhs->array)[i * lhs->width + k] * (rhs->array)[k * rhs->width + j];
       }
       ((*result)->array)[i * (*(result))->width + j] = product;
     }
