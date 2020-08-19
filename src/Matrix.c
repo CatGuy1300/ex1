@@ -10,14 +10,13 @@ typedef struct Matrix
     double **array;
 } Matrix;
 
-const uint32_t MIN_INDEX_VAL = 0;
 
 ErrorCode matrix_create(PMatrix *matrix, uint32_t height, uint32_t width)
 {
     // dims must be positive
-    if (height < MIN_INDEX_VAL + 1 || width < MIN_INDEX_VAL + 1)
+    if (height == 0 || width == 0)
     {
-        return ERROR_NEG_INDEX;
+        return ERROR_SIZE_CANT_BE_ZERO;
     }
 
     // better safe than sorry
@@ -147,10 +146,6 @@ ErrorCode matrix_setValue(PMatrix matrix, uint32_t rowIndex, uint32_t colIndex,
     }
 
     // checking for invalid input
-    if (rowIndex < MIN_INDEX_VAL || colIndex < MIN_INDEX_VAL)
-    {
-        return ERROR_NEG_INDEX;
-    }
     if (rowIndex >= matrix->height || colIndex >= matrix->width)
     {
         return ERROR_OUT_OF_MATRIX_BOUNDS;
@@ -171,10 +166,6 @@ ErrorCode matrix_getValue(CPMatrix matrix, uint32_t rowIndex, uint32_t colIndex,
     }
 
     // checking for invalid input
-    if (rowIndex < MIN_INDEX_VAL || colIndex < MIN_INDEX_VAL)
-    {
-        return ERROR_NEG_INDEX;
-    }
     if (rowIndex >= matrix->height || colIndex >= matrix->width)
     {
         return ERROR_OUT_OF_MATRIX_BOUNDS;

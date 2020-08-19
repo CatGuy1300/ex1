@@ -14,8 +14,8 @@ const char* error_getErrorMessage(ErrorCode code) {
     case ERROR_NULL:
         str = "Input is null";
         break;
-    case ERROR_NEG_INDEX:
-        str = "Matrix height and width must be not negative";
+    case ERROR_SIZE_CANT_BE_ZERO:
+        str = "Matrix height and width mustn't be zero";
         break;
     case ERROR_OUT_OF_MATRIX_BOUNDS:
         str = "The index you wanted to reach is out of matrix's bounds";
