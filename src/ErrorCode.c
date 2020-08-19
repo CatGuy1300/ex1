@@ -1,7 +1,7 @@
 #include "ErrorCode.h"
 
 bool error_isSuccess(ErrorCode code) {
-    return !code; //success in the only code represented by 0
+    return (bool)(!code); //success in the only code represented by 0
 }
 
 const char* error_getErrorMessage(ErrorCode code) {
