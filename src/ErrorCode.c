@@ -1,10 +1,10 @@
 #include "ErrorCode.h"
 
-bool error_isSuccess(ErrorCode code) {
+bool error_isSuccess(const ErrorCode code) {
     return (bool)(!code); //success in the only code represented by 0
 }
 
-const char* error_getErrorMessage(ErrorCode code) {
+const char* error_getErrorMessage(const ErrorCode code) {
     switch (code)
     {
     case ERROR_SUCCESS:
