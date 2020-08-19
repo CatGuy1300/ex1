@@ -7,7 +7,7 @@ typedef struct Matrix
 {
     uint32_t height;
     uint32_t width;
-    double **array;
+    double *array;
 } Matrix;
 
 
@@ -29,33 +29,13 @@ ErrorCode matrix_create(PMatrix *matrix, uint32_t height, uint32_t width)
     (*matrix)->width = width;
 
     // creating the array repersenig the matrix
-    ((*matrix)->array) = (double **)malloc(height * sizeof(double *));
+    ((*matrix)->array) = (double *)calloc(height * width, sizeof(double));
     if (((*matrix)->array) == NULL)
     {
         free(*matrix);
         *matrix = NULL;
         return ERROR_MEMORY;
     }
-
-    // creating the arrays inside the array (2d array)
-    for (uint32_t i = 0; i < height; ++i)
-    {
-        ((*matrix)->array)[i] = (double *)calloc(width, sizeof(double));
-
-        if (((*matrix)->array)[i] == NULL)
-        {
-            // need to free allocted memory
-            for (uint32_t j = 0; j < i; ++j)
-            {
-                free(((*matrix)->array)[i]);
-            }
-            free((*matrix)->array);
-            free(*matrix);
-            *matrix = NULL;
-            return ERROR_MEMORY;
-        }
-    }
-
     return ERROR_SUCCESS;
 }
 
@@ -79,7 +59,7 @@ ErrorCode matrix_copy(PMatrix *result, CPMatrix source)
     {
         for (uint32_t j = 0; j < source->width; ++j)
         {
-            ((*result)->array)[i][j] = (source->array)[i][j];
+            ((*result)->array)[i * source->width + j] = (source->array)[i * source->width + j];
         }
     }
 
@@ -90,11 +70,6 @@ void matrix_destroy(PMatrix matrix)
 {
     if (matrix != NULL)
     {
-        // freeing 2d array
-        for (uint32_t i = 0; i < matrix->height; ++i)
-        {
-            free((matrix->array)[i]);
-        }
         free(matrix->array);
 
         // freeing sturct
@@ -146,7 +121,7 @@ ErrorCode matrix_setValue(PMatrix matrix, uint32_t rowIndex, uint32_t colIndex,
     }
 
     // setting the value
-    (matrix->array)[rowIndex][colIndex] = value;
+    (matrix->array)[rowIndex * matrix->width + colIndex] = value;
     return ERROR_SUCCESS;
 }
 
@@ -166,7 +141,7 @@ ErrorCode matrix_getValue(CPMatrix matrix, uint32_t rowIndex, uint32_t colIndex,
     }
 
     // setting value to be the value
-    *value = (matrix->array)[rowIndex][colIndex];
+    *value = (matrix->array)[rowIndex * matrix->width + colIndex];
     return ERROR_SUCCESS;
 }
 
@@ -196,7 +171,7 @@ ErrorCode matrix_add(PMatrix *result, CPMatrix lhs, CPMatrix rhs)
     {
         for (uint32_t j = 0; j < lhs->width; ++j)
         {
-            ((*result)->array)[i][j] = (lhs->array)[i][j] + (rhs->array)[i][j];
+            ((*result)->array)[i * (*(result))->width + j] = (lhs->array)[i * lhs->width + j] + (rhs->array)[i * rhs->width + j];
         }
     }
 
@@ -232,9 +207,9 @@ ErrorCode matrix_multiplyMatrices(PMatrix *result, CPMatrix lhs, CPMatrix rhs)
             double product = 0;
             for (uint32_t k = 0; k < lhs->width; ++k)
             {
-                product += (lhs->array)[i][k] * (rhs->array)[k][j];
+                product += (lhs->array)[i * lhs->width + k] * (rhs->array)[k * lhs->width + j];
             }
-            ((*result)->array)[i][j] = product;
+            ((*result)->array)[i * (*(result))->width + j] = product;
         }
     }
 
@@ -254,7 +229,7 @@ ErrorCode matrix_multiplyWithScalar(PMatrix matrix, double scalar)
     {
         for (uint32_t j = 0; j < matrix->width; ++j)
         {
-            (matrix->array)[i][j] *= scalar;
+            (matrix->array)[i * matrix->width + j] *= scalar;
         }
     }
 
