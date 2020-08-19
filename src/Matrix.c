@@ -19,9 +19,6 @@ ErrorCode matrix_create(PMatrix *matrix, uint32_t height, uint32_t width)
         return ERROR_SIZE_CANT_BE_ZERO;
     }
 
-    // better safe than sorry
-    *matrix = NULL;
-
     // allocating memory for struct
     *matrix = (PMatrix)malloc(sizeof(Matrix));
     if (*matrix == NULL)
@@ -102,9 +99,6 @@ void matrix_destroy(PMatrix matrix)
 
         // freeing sturct
         free(matrix);
-
-        // better safe than sorry
-        matrix = NULL;
     }
 }
 
