@@ -15,6 +15,10 @@ ErrorCode matrix_create(PMatrix *matrix, const uint32_t height,
   if (height == 0 || width == 0) {
     return ERROR_SIZE_CANT_BE_ZERO;
   }
+  //check for null
+  if (matrix == NULL) {
+      return ERROR_NULL;
+  }
 
   // allocating memory for struct
   *matrix = (PMatrix)malloc(sizeof(Matrix));
@@ -36,7 +40,7 @@ ErrorCode matrix_create(PMatrix *matrix, const uint32_t height,
 
 ErrorCode matrix_copy(PMatrix *result, CPMatrix source) {
   // checking for null
-  if (source == NULL) {
+  if (source == NULL || result == NULL) {
     return ERROR_NULL;
   }
 
@@ -68,7 +72,7 @@ void matrix_destroy(PMatrix matrix) {
 
 ErrorCode matrix_getHeight(CPMatrix matrix, uint32_t *const result) {
   // checking for null
-  if (matrix == NULL) {
+  if (matrix == NULL || result == NULL) {
     return ERROR_NULL;
   }
 
@@ -80,7 +84,7 @@ ErrorCode matrix_getHeight(CPMatrix matrix, uint32_t *const result) {
 
 ErrorCode matrix_getWidth(CPMatrix matrix, uint32_t *const result) {
   // checking for null
-  if (matrix == NULL) {
+  if (matrix == NULL || result == NULL) {
     return ERROR_NULL;
   }
 
@@ -110,7 +114,7 @@ ErrorCode matrix_setValue(PMatrix matrix, const uint32_t rowIndex,
 ErrorCode matrix_getValue(CPMatrix matrix, const uint32_t rowIndex, const uint32_t colIndex,
                           double *const value) {
   // checking for null
-  if (matrix == NULL) {
+  if (matrix == NULL || value == NULL) {
     return ERROR_NULL;
   }
 
@@ -126,7 +130,7 @@ ErrorCode matrix_getValue(CPMatrix matrix, const uint32_t rowIndex, const uint32
 
 ErrorCode matrix_add(PMatrix *result, CPMatrix lhs, CPMatrix rhs) {
   // checking for null
-  if (lhs == NULL || rhs == NULL) {
+  if (lhs == NULL || rhs == NULL || result == NULL) {
     return ERROR_NULL;
   }
 
@@ -154,7 +158,7 @@ ErrorCode matrix_add(PMatrix *result, CPMatrix lhs, CPMatrix rhs) {
 
 ErrorCode matrix_multiplyMatrices(PMatrix *result, CPMatrix lhs, CPMatrix rhs) {
   // checking for null
-  if (lhs == NULL || rhs == NULL) {
+  if (lhs == NULL || rhs == NULL || result == NULL) {
     return ERROR_NULL;
   }
 
