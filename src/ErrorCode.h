@@ -3,7 +3,8 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-typedef enum {
+typedef enum
+{
     // DON'T CHANGE THIS VALUE!
     ERROR_SUCCESS = 0,
     ERROR_NULL,
@@ -29,4 +30,4 @@ bool error_isSuccess(ErrorCode code);
  * @param[in] code the error code.
  * @return const char* the textual representation of the error code.
  */
-const char* error_getErrorMessage(ErrorCode code);
+const char *error_getErrorMessage(ErrorCode code);
